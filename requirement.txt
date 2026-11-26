@@ -1,7 +1,10 @@
 openai
+anthropic
 python-dotenv
 psycopg[binary]
 streamlit
 pandas
 sqlalchemy
 google-genai
+fpdf2
+dataframe_image

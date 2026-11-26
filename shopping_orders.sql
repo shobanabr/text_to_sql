@@ -1,9 +1,12 @@
 CREATE DATABASE shopping_orders;
+SELECT current_database();
+SELECT datname FROM pg_database ORDER BY datname;
 
 /* ---------- Schemas ---------- */
 CREATE SCHEMA IF NOT EXISTS customer;
 CREATE SCHEMA IF NOT EXISTS products;
 CREATE SCHEMA IF NOT EXISTS orders;
+
 
 /* ============================================================
    customer.customer_info  - who the customers are
@@ -163,3 +166,5 @@ JOIN customer.customer_info  c  ON c.customer_id = o.customer_id
 JOIN orders.purchase_orders  p  ON p.order_id = o.order_id
 JOIN products.product        pr ON pr.product_id = p.product_id
 ORDER BY o.order_id;
+
+select * from customer.customer_info limit 5;

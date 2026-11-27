@@ -9,7 +9,7 @@ from fpdf import FPDF
 #postgresql+psycopg://USERNAME:PASSWORD@HOST:PORT/DATABASE
 
 engine = create_engine(
-    "postgresql+psycopg://postgres:shobanabr@localhost:5432/postgres"
+    "postgresql+psycopg://postgres:@localhost:5432/postgres"
 )
 
 

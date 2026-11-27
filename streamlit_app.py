@@ -177,15 +177,12 @@ st.session_state.setdefault("generated_sql", None)
 st.session_state.setdefault("query_result", None)
 st.session_state.setdefault("query_error", None)
 
-
 def use_sample(q):
     st.session_state.question = q
     st.session_state.generate_query = True
 
-
 def submit():
     st.session_state.generate_query = True
-
 
 def clear_question():
     st.session_state.question = ""
@@ -193,7 +190,6 @@ def clear_question():
     st.session_state.generated_sql = None
     st.session_state.query_result = None
     st.session_state.query_error = None
-
 
 def clear_query_result():
     st.session_state.generated_sql = None
@@ -210,7 +206,6 @@ try:
 except Exception as database_error:
     st.error(f"Could not load available databases: {database_error}")
     st.stop()
-
 if not databases:
     st.error("No databases are available to the configured PostgreSQL user.")
     st.stop()
@@ -224,14 +219,11 @@ with database_col:
         on_change=clear_query_result,
     )
 
-
-
 try:
     schema_names = get_all_schemas(selected_database)
 except Exception as schema_error:
     st.error(f"Could not load schemas from {selected_database}: {schema_error}")
     st.stop()
-
 if not schema_names:
     st.error(f"No schemas are available in database {selected_database}.")
     st.stop()
@@ -253,7 +245,7 @@ except Exception as schema_error:
 
 # Sidebar: schema browser
 with st.sidebar:
-    st.markdown('<div class="qp-side-title">🗂️ Database Schema</div>', unsafe_allow_html=True)
+    st.markdown('<div class="qp-side-title">🗂️ Table Schema</div>', unsafe_allow_html=True)
     st.markdown(
         f'<div class="qp-side-sub">{selected_database} · {selected_schema} · click a table to expand</div>',
         unsafe_allow_html=True,
@@ -265,7 +257,6 @@ with st.sidebar:
             for name, ctype, is_pk, fk in cols:
                 badge = " 🔑" if is_pk else (f" 🔗 → `{fk}`" if fk else "")
                 st.markdown(f"**{name}** &nbsp; `{ctype or 'TEXT'}`{badge}")
-
 
 st.markdown(
     f'<div class="qp-caption">Ask your question to query {selected_database}.{selected_schema}</div>',
@@ -305,10 +296,10 @@ if st.session_state.generate_query and st.session_state.question.strip():
         st.session_state.generated_sql = None
         st.session_state.query_result = None
         st.error(f"Could not generate SQL: {e}")
+        
 def make_export_data(dataframe, export_function, filename: str):
     def write_image_fallback(output_path: Path) -> None:
         from PIL import Image, ImageDraw, ImageFont
-
         font = ImageFont.load_default()
         headers = [str(column) for column in dataframe.columns]
         rows = [
@@ -519,9 +510,6 @@ def make_export_data(dataframe, export_function, filename: str):
                 "xl/worksheets/sheet1.xml",
                 ET.tostring(worksheet, encoding="utf-8", xml_declaration=True),
             )
-
-    
-
     def generate_file():
         with tempfile.TemporaryDirectory() as temp_dir:
             output_path = Path(temp_dir) / filename
@@ -535,7 +523,6 @@ def make_export_data(dataframe, export_function, filename: str):
                 else:
                     raise
             return output_path.read_bytes()
-
     return generate_file
 
 if st.session_state.generated_sql:
